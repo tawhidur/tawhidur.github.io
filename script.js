@@ -50,53 +50,23 @@ $(function () {
     $('html').css('scrollBehavior', 'smooth');
   });
 
-  /* ── Typed.js — hero section ───────────────────────────────────────── */
-  new Typed('.typing', {
-    strings: [
-      'Test Automation',
-      'QA Leadership',
-      'Test Strategy',
-      'CI/CD Integration',
-      'Agile QA'
-    ],
-    typeSpeed:  85,
-    backSpeed:  50,
-    backDelay:  1800,
-    loop:       true,
-    smartBackspace: true
-  });
-
-  /* ── Typed.js — about section ──────────────────────────────────────── */
-  new Typed('.typing-2', {
-    strings: [
-      'Test Automation',
-      'QA Leadership',
-      'Test Planning',
-      'Agile Methodologies',
-      'Team Mentoring'
-    ],
-    typeSpeed:  85,
-    backSpeed:  50,
-    backDelay:  1800,
-    loop:       true,
-    smartBackspace: true
-  });
-
-  /* ── Owl Carousel — experience/projects ───────────────────────────── */
-  $('.carousel').owlCarousel({
-    margin:           20,
-    loop:             true,
-    autoplay:         true,        // was missing in original
-    autoplayTimeout:  3500,        // fixed: was misspelled "autoplayTimeOut"
-    autoplayHoverPause: true,
-    smartSpeed:       600,
-    dots:             true,
-    responsive: {
-      0:    { items: 1 },
-      600:  { items: 2 },
-      1000: { items: 3 }
-    }
-  });
+  /* ── Owl Carousel — experience/projects (graceful fallback if CDN blocked) */
+  if (typeof $.fn.owlCarousel === 'function') {
+    $('.carousel').owlCarousel({
+      margin:             20,
+      loop:               true,
+      autoplay:           true,
+      autoplayTimeout:    3500,
+      autoplayHoverPause: true,
+      smartSpeed:         600,
+      dots:               true,
+      responsive: {
+        0:    { items: 1 },
+        600:  { items: 2 },
+        1000: { items: 3 }
+      }
+    });
+  }
 
   /* ── Footer: auto-update copyright year ───────────────────────────── */
   $('#year').text(new Date().getFullYear());
