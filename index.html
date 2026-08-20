@@ -530,15 +530,38 @@
     </div>
   </footer>
 
-  <!-- ── Scripts (deferred — never block render) ───────────────────── -->
+  <!-- ── Inline typing animation (no CDN required) ─────────────────── -->
+  <script>
+  (function(){
+    function tw(sel, strings, typeSpeed, backSpeed, backDelay) {
+      var el = document.querySelector(sel);
+      if (!el) return;
+      var si = 0, ci = 0, deleting = false;
+      function tick() {
+        var str = strings[si % strings.length];
+        if (deleting) {
+          el.textContent = str.substring(0, ci--);
+          if (ci < 0) { deleting = false; si++; setTimeout(tick, 500); return; }
+        } else {
+          el.textContent = str.substring(0, ci++);
+          if (ci > str.length) { deleting = true; setTimeout(tick, backDelay); return; }
+        }
+        setTimeout(tick, deleting ? backSpeed : typeSpeed);
+      }
+      setTimeout(tick, 600);
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+      tw('.typing',   ['Test Automation','QA Leadership','Test Strategy','CI/CD Integration','Agile QA'], 85, 50, 1800);
+      tw('.typing-2', ['Test Automation','QA Leadership','Test Planning','Agile Methodologies','Team Mentoring'], 85, 50, 1800);
+    });
+  })();
+  </script>
+
+  <!-- ── Scripts (jQuery + OwlCarousel via CDN, with graceful degradation) -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
           integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
           crossorigin="anonymous" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.1.0/typed.umd.js"
-          integrity="sha512-+2pW8xXU/rNr7VS+H62aqapfRpqFwnSQh9ap6THjsm41AxgA0MhFRtfrABS+Lx2KHJn82UOrnBKhjZOXpom2g=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
-          integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lw=="
           crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
   <script src="script.js" defer></script>
 
